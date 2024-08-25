@@ -15,11 +15,15 @@ def extract_race_info_from_soup(soup):
 
     # レースのコンディションを取得
     race_condition1 = race_data.find("dd").find("p").find("span").get_text()
-    parsed_race_condition1 = race_condition1.split(u'\xa0/\xa0')
+    groups = re.search(r'^(?P<race_conditon>.+)\xa0\/\xa0(?P<weather>.+)\xa0\/\xa0(?P<track_condition>.+)\xa0\/\xa0(?P<start_time>.+)$', race_condition1)
+    parsed_race_condition1 = [groups.group("race_conditon"), groups.group("weather"), groups.group("track_condition"), groups.group("start_time")]
 
     # レースのコンディションを取得(小さいテキスト)
     race_condition2 = all_info.find("p", attrs={"class":"smalltxt"}).get_text()
-    parsed_race_condition2 = race_condition2.split()
+
+    groups = re.search(r'^(?P<date>.+) (?P<event_name>.+) (?P<race_name>.+)\xa0(?P<race_type>.+)$', race_condition2)
+    parsed_race_condition2 = [groups.group("date"), groups.group("event_name"), groups.group("race_name"), groups.group("race_type")]
+    parsed_race_condition2 = list(map(lambda x: x.replace(u"\xa0", u""), parsed_race_condition2))
 
     columns = ["race_number", "race_condition", "weather", "track_condition", "starting_time", "race_date", "event_name", "race_class", "race_type"]
     merged =  [race_number] + parsed_race_condition1 + parsed_race_condition2

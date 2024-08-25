@@ -19,10 +19,9 @@ infoDao = RawRaceInformationDao(conn)
 resultDao = RawRaceResultDao(conn)
 payoutDao = RawRacePayoutDao(conn)
 
-races = raceDao.select_not_scraped_with_limit(10000)
+races = raceDao.select_not_scraped_with_limit(2)
 for race in tqdm(races):
     race_id = race["id"]
-
     netkeiba_race_id = race["netkeiba_race_id"]
     
     info, result_table, payout_table = scrape_race_result(requestWrapper, netkeiba_race_id)
