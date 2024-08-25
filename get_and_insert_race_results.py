@@ -12,14 +12,14 @@ def extract_name_and_netkeiba_id_from_value(value: str):
     return groups.group("name"), groups.group("href")
 
 # インスタンスの生成
-requestWrapper = RequestWrapper(request_interval_milli=1000)
+requestWrapper = RequestWrapper(request_interval_milli=1500)
 conn = Connection(config_key="raw_data")
 raceDao = RawRaceDao(conn)
 infoDao = RawRaceInformationDao(conn)
 resultDao = RawRaceResultDao(conn)
 payoutDao = RawRacePayoutDao(conn)
 
-races = raceDao.select_not_scraped_with_limit(100)
+races = raceDao.select_not_scraped_with_limit(10000)
 for race in tqdm(races):
     race_id = race["id"]
 
