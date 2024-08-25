@@ -1,0 +1,12 @@
+raw_data:
+    host: localhost
+    port: 3306
+    username: test
+    password: test
+    database: raw_data
+processed_data:
+    host: localhost
+    port: 3306
+    username: test
+    password: test
+    database: processed_data
